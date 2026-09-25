@@ -8,9 +8,9 @@ import google.generativeai as genai
 TELEGRAM_BOT_TOKEN = os.getenv("BOT_TOKEN")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
-# Gemini 2.0 Flash API configure kora
+# Gemini 3.8 Flash API configure kora
 genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel("gemini-2.0-flash")
+model = genai.GenerativeModel("gemini-3.8-flash")
 
 bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
 app = Flask(__name__)
@@ -21,7 +21,7 @@ def home():
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.reply_to(message, "Assalamu Alaikum! Ami apnar AI Website Generator Bot. Apni ja bolben (jemon: 'Best Value BD online subscription site baniye dao'), ami tar complete HTML & CSS code baniye file akare diye dibo!")
+    bot.reply_to(message, "Assalamu Alaikum! Ami apnar AI Website Generator Bot. Apni ja bolben, ami tar complete HTML & CSS code baniye file akare diye dibo!")
 
 @bot.message_handler(func=lambda message: True)
 def generate_website(message):
@@ -66,3 +66,4 @@ if __name__ == "__main__":
     
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
+    
