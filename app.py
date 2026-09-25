@@ -8,9 +8,9 @@ import google.generativeai as genai
 TELEGRAM_BOT_TOKEN = os.getenv("BOT_TOKEN")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
-# Gemini API configure kora
+# Gemini 2.0 Flash API configure kora
 genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel("gemini-1.5-flash")
+model = genai.GenerativeModel("gemini-2.0-flash")
 
 bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
 app = Flask(__name__)
@@ -21,7 +21,7 @@ def home():
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.reply_to(message, "Assalamu Alaikum! Ami apnar AI Website Generator Bot. Apni ja bolben (jemon: 'Ramim name ekta gaming site baniye dao'), ami tar complete HTML & CSS code baniye file akare diye dibo!")
+    bot.reply_to(message, "Assalamu Alaikum! Ami apnar AI Website Generator Bot. Apni ja bolben (jemon: 'Best Value BD online subscription site baniye dao'), ami tar complete HTML & CSS code baniye file akare diye dibo!")
 
 @bot.message_handler(func=lambda message: True)
 def generate_website(message):
@@ -50,7 +50,8 @@ def generate_website(message):
         with open(filename, "rb") as f:
             bot.send_document(chat_id, f, caption=f"✨ Apnar request kora website: '{prompt}'")
             
-        os.remove(filename)
+        if os.path.exists(filename):
+            os.remove(filename)
     except Exception as e:
         bot.send_message(chat_id, f"Kono somossa hoyeche: {str(e)}")
 
