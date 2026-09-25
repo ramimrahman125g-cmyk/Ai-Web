@@ -84,12 +84,25 @@ def process_rdp_generation(chat_id, choice):
             if r.ok:
                 text = r.text.strip()
                 if matchKeyword in text:
+                    # Shudhu exact line-ti ber korar jonno logic
+                    clean_link = ""
+                    for line in text.splitlines():
+                        if matchKeyword in line:
+                            clean_link = line.strip()
+                            break
+                    if not clean_link:
+                        clean_link = text
+
+                    # Ubuntu hole tcp:// remove kora
+                    if choice == "ubuntu" and clean_link.startswith("tcp://"):
+                        clean_link = clean_link.replace("tcp://", "").strip()
+                    
                     msg = (
                         f"🎉 **{choice.capitalize()} RDP is Ready!**\n\n"
-                        f"🖥️ **Host & Port / Link:**\n`{text}`\n\n"
+                        f"🖥️ **Host & Port:**\n`{clean_link}`\n\n"
                         f"👤 **Username:** `{username}`\n"
                         f"🔑 **Password:** `{password}`\n\n"
-                        f"⚠️ *Ei details gopon rakhun.*"
+                        f"⚠️ *Ei address-ti sothik vabe Remote Desktop app-e use korun.*"
                     )
                     bot.send_message(chat_id, msg, parse_mode="Markdown")
                     return
